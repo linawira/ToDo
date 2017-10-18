@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 
 var mongoose = require('mongoose');
 var bluebird = require('bluebird');
-var glob = required('glob');
+var glob = require('glob');
 
 module.exports = function (app, config) {
 
@@ -16,8 +16,6 @@ module.exports = function (app, config) {
  db.on('error', function () {
    throw new Error('unable to connect to database at ' + config.db);
  });
-
-
 
   if(process.env.NODE_ENV !== 'test') {
     app.use(morgan('dev'));
@@ -45,7 +43,7 @@ module.exports = function (app, config) {
   
  var controllers = glob.sync(config.root + '/app/controllers/*.js');
    controllers.forEach(function (controller) {
-    require(controller);
+    require(controller)(app, config);
    });
 
     
@@ -67,8 +65,8 @@ module.exports = function (app, config) {
 //  });
 
 
-  require('../app/controllers/users')(app, config);
-  require('../app/controllers/todos')(app, config);
+  // require('../app/controllers/users')(app, config);
+  // require('../app/controllers/todos')(app, config);
 
 
   app.use(express.static(config.root + '/public'));
@@ -80,7 +78,9 @@ module.exports = function (app, config) {
     });
   
     app.use(function (err, req, res, next) {
+      if(process.env.NODE_ENV !== 'test') {
       logger.error(err.stack);
+    }
       res.type('text/plan');
       res.status(500);
       res.send('500 Sever Error');  
