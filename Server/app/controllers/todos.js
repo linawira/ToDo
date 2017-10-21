@@ -52,7 +52,7 @@ module.exports = function (app, config) {
     router.post('/todos', function(req, res, next){
         logger.log('Create a todo', 'verbose');
 
-        var todo = new todo(req.body);
+        var todo = new Todo(req.body);
         todo.save()
        .then(result => {
            res.status(201).json(result);
@@ -70,7 +70,7 @@ module.exports = function (app, config) {
         logger.log('Update todo with id todoid'+ req.params.todoId, 'verbose');
 
         
-        todo.findOneAndUpdate({_id: req.params.todoId}, 		
+        Todo.findOneAndUpdate({_id: req.params.todoId}, 		
             req.body, {new:true, multi:false})
                 .then(todo => {
                     res.status(200).json(todo);
@@ -86,7 +86,7 @@ module.exports = function (app, config) {
     router.delete('/todos/:todoId', function (req, res, next){
         logger.log('Delete ToDo with id todoid'+ req.params.todoId, 'verbose');
 
-        todo.remove({ _id: req.params.todoId })
+        Todo.remove({ _id: req.params.todoId })
                 .then(user => {
                     res.status(200).json({msg: "todo Deleted"});
                 })

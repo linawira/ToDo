@@ -1,6 +1,6 @@
 var mongoose = require("mongoose"),
 User = require('../app/models/users');
-
+Todo = require('../app/models/todos');
 
 //During the test the env variable is set to test
 process.env.NODE_ENV = 'test';
@@ -153,7 +153,7 @@ it('it should DELETE a user given the id', (done) => {
 
 describe('ToDo', () => {
 	    beforeEach((done) => { 
-	        todo.remove({}, (err) => {
+	        Todo.remove({}, (err) => {
 	            done();
 	        });
 	    });
@@ -186,136 +186,114 @@ it('it should POST a todo', (done) => {
 	    });
 });
 
-// it('it should GET a users todos', (done) => {
-// 	        var todo = new ToDo({
-// 	            "userId": USER_ID,
-// 	            "todo": "This is my ToDo"
-// 	        })
-// 	        todo.save((err, todo) => {      
-// 	            chai.request(server)
-// 	                .get('/api/todos/user/' + USER_ID)
-// 	                .end((err, res) => {            
-// 	                    res.should.have.status(200);
-// 	                    res.body.should.be.a('array');
-// 	                    res.body.length.should.be.eql(1);
-// 	                    done();
-// 	                });
-// 	        });
-// 	    });
+it('it should GET a users todos', (done) => {
+	        var todo = new Todo({
+	            "userId": USER_ID,
+	            "todo": "This is my ToDo"
+	        })
+	        todo.save((err, todo) => {      
+	            chai.request(server)
+	                .get('/api/todos/user/' + USER_ID)
+	                .end((err, res) => {            
+	                    res.should.have.status(200);
+	                    res.body.should.be.a('array');
+	                    res.body.length.should.be.eql(1);
+	                    done();
+	                });
+	        });
+	    });
 
-// 	it('it should GET a todo', (done) => {
-// 		        var todo = new ToDo({
-// 		            "userId": USER_ID,
-// 		            "todo": "This is my ToDo"
-// 		        })
-// 		        todo.save((err, todo) => {      
-// 		            chai.request(server)
-// 		                .get('/api/todos/' + todo._id)
-// 		                .end((err, res) => {            
-// 		                    res.should.have.status(200);
-// 		                    res.body.should.be.a('object');
-// 		                    res.body.should.have.property('userId');
-// 		                    res.body.should.have.property('todo');
-// 		                    res.body.should.have.property('completed');
-// 		                    res.body.should.have.property('dateCreated');
-// 		                    res.body.should.have.property('_id').eql(todo._id.toString());
-// 		                    done();
-// 		                });
-// 		        });
-// 		    });
+	it('it should GET a todo', (done) => {
+		        var todo = new Todo({
+		            "userId": USER_ID,
+		            "todo": "This is my ToDo"
+		        })
+		        todo.save((err, todo) => {      
+		            chai.request(server)
+		                .get('/api/todos/' + todo._id)
+		                .end((err, res) => {            
+		                    res.should.have.status(200);
+		                    res.body.should.be.a('object');
+		                    res.body.should.have.property('userId');
+		                    res.body.should.have.property('todo');
+		                    res.body.should.have.property('completed');
+		                    res.body.should.have.property('dateCreated');
+		                    res.body.should.have.property('_id').eql(todo._id.toString());
+		                    done();
+		                });
+		        });
+		    });
 
 		
-// 		 it('it should UPDATE a todo', (done) => {
-// 			        
-// 			        var todo = new ToDo({
-// 			            "userId": USER_ID,
-// 			            "todo": "This is my ToDo",
-// 			            "description": "This is a description"
-// 			        })
+		 it('it should UPDATE a todo', (done) => {
+			        
+			        var todo = new Todo({
+			            "userId": USER_ID,
+			            "todo": "This is my ToDo",
+			            "description": "This is a description"
+			        })
 
-// 			todo.save((err, todo) => {
-// 				                chai.request(server)
-// 				                .put('/api/todos/' + todo._id)
-// 				                .send({
-// 				                    "_id": todo._id,
-// 				                    "userId": USER_ID,
-// 				                    "todo": "Get it done!",
-// 				                    "description": "I don't need a description",
-// 				                    })
-// 				                .end((err, res) => {
-// 				                    res.should.have.status(200);
-// 				                    res.body.should.be.a('object');
-// 				                    res.body.should.have.property('todo').eql('Get it done!');
-// 				                    res.body.should.have.property('description').eql("I don't need a description");
-// 				                    done();
-// 				                });
-// 				        });
-// 				    }); 
+			todo.save((err, todo) => {
+				                chai.request(server)
+				                .put('/api/todos/' + todo._id)
+				                .send({
+				                    "_id": todo._id,
+				                    "userId": USER_ID,
+				                    "todo": "Get it done!",
+				                    "description": "I don't need a description",
+				                    })
+				                .end((err, res) => {
+				                    res.should.have.status(200);
+				                    res.body.should.be.a('object');
+				                    res.body.should.have.property('todo').eql('Get it done!');
+				                    res.body.should.have.property('description').eql("I don't need a description");
+				                    done();
+				                });
+				        });
+				    }); 
 					
-// 				it('it should DELETE a todo given the id', (done) => {
-// 					        var todo = new ToDo({
-// 					            "userId": USER_ID,
-// 					            "todo": "This is my ToDo",
-// 					            "description": "This is a description"
-// 					        })
-// 							todo.save((err, todo) => {
-// 						chai.request(server)
-// 						.delete('/api/todos/' + todo.id)
-// 						.end((err, res) => {
-// 							res.should.have.status(200);
-// 					                   	done();
-// 						});
-// 							 });
-// 					    });
+				it('it should DELETE a todo given the id', (done) => {
+					        var todo = new Todo({
+					            "userId": USER_ID,
+					            "todo": "This is my ToDo",
+					            "description": "This is a description"
+					        })
+							todo.save((err, todo) => {
+						chai.request(server)
+							.delete('/api/todos/' + todo.id)
+							.end((err, res) => {
+							res.should.have.status(200);
+					                   	done();
+						});
+							 });
+					    });
 
 					
-// 	});
+	// });
 	
 
-// describe('Test', function() {
-//     it('/GET index.html');
-// 	it('/GET 404');
-// 	it('/GET Users');
+describe('Test', function() {
     
-//   });
-  
-//   it('it should GET the index.html file', (done) => {
-//       chai.request(server)
-//           .get('/index.html')
-//           .end((err, res) => {
-//               res.should.have.status(200);
-//               res.should.be.html;
-//           done();
-//           });
-
-    
-// it('it should return 404', (done) => {
-//     chai.request(server)		
-//         .get('/index2.html')
-// 		.end((err, res) => {
-// 			res.should.have.status(404);
-// 		done();
-// 		});
-// });
-      
-// describe('/GET users', () => {
-// 	it('it should GET all the users', (done) => {
-// 		chai.request(server)
-// 			.get('/api/users')
-// 			.end((err, res) => {
-// 				res.should.have.status(200);
-// 				res.body.should.be.a('array');
-// 				res.body.length.should.be.eql(3);
-// 				res.body[0].should.be.a('object');
-//  				res.body[0].should.have.property('name');
-// 				res.body[0].should.have.property('email');
-// 				res.body[0].name.should.be.a('string');
-// 				res.body[0].name.should.equal('John'); 
-// 			done();
-// 			});
-// 	});
-// });
-
-
 
   
+  it('it should GET the index.html file', (done) => {
+      chai.request(server)
+          .get('/index.html')
+          .end((err, res) => {
+              res.should.have.status(200);
+              res.should.be.html;
+          done();
+		  });
+  });  
+
+    
+it('it should return 404', (done) => {
+    chai.request(server)		
+        .get('/index2.html')
+		.end((err, res) => {
+			res.should.have.status(404);
+		done();
+		});
+});
+
+});
