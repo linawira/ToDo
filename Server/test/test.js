@@ -184,7 +184,7 @@ it('it should POST a todo', (done) => {
 	                done();
 	            });
 	    });
-});
+// });
 
 it('it should GET a users todos', (done) => {
 	        var todo = new Todo({
@@ -192,7 +192,7 @@ it('it should GET a users todos', (done) => {
 	            "todo": "This is my ToDo"
 	        })
 	        todo.save((err, todo) => {      
-	            chai.request(server)
+	          		 chai.request(server)
 	                .get('/api/todos/user/' + USER_ID)
 	                .end((err, res) => {            
 	                    res.should.have.status(200);
@@ -208,8 +208,8 @@ it('it should GET a users todos', (done) => {
 		            "userId": USER_ID,
 		            "todo": "This is my ToDo"
 		        })
-		        todo.save((err, todo) => {      
-		            chai.request(server)
+		        		todo.save((err, todo) => {      
+		           		 chai.request(server)
 		                .get('/api/todos/' + todo._id)
 		                .end((err, res) => {            
 		                    res.should.have.status(200);
@@ -233,7 +233,7 @@ it('it should GET a users todos', (done) => {
 			            "description": "This is a description"
 			        })
 
-			todo.save((err, todo) => {
+								todo.save((err, todo) => {
 				                chai.request(server)
 				                .put('/api/todos/' + todo._id)
 				                .send({
@@ -269,7 +269,7 @@ it('it should GET a users todos', (done) => {
 					    });
 
 					
-	// });
+// 	// });
 	
 
 describe('Test', function() {
@@ -296,4 +296,5 @@ it('it should return 404', (done) => {
 		});
 });
 
+	});
 });
