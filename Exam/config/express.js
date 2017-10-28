@@ -1,6 +1,7 @@
+//express.js contains most of the server configuration code
+
+//load required libraries and plugins
 var express = require('express');
-var logger = require ('./logger');
-var morgan = require ('morgan');
 var bodyParser = require('body-parser');
 
 var mongoose = require('mongoose');
@@ -9,16 +10,14 @@ var glob = require('glob');
 
 module.exports = function (app, config) {
 
+//connect to mongodb using mongoose 
  mongoose.Promise = require('bluebird');
  mongoose.connect(config.db, {useMongoClient: true});
  var db = mongoose.connection;
  db.on('error', function () {
    throw new Error('unable to connect to database at ' + config.db);
  });
-
-  if(process.env.NODE_ENV !== 'test') {
-    app.use(morgan('dev'));
-
+ 
    mongoose.set('debug', true);
    mongoose.connection.once('open', function callback() {
      console.log("Mongoose connected to the database");
@@ -28,48 +27,29 @@ module.exports = function (app, config) {
       console.log('Request from ' + req.connection.remoteAddress, 'info');
       next();
     });
-  }
 
+  //(bodyParser.json) returns middleware that only parses json
+  //(bodyParser.urlencoded) returns middleware that only parses urlencoded bodies
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({
       extended: true
     }));
 
-   var models = glob.sync(config.root + '/app/models/*.js');
+  // load the models and controllers 
+    var models = glob.sync(config.root + '/app/models/*.js');
    models.forEach(function (model) {
      require(model);
    });
   
- var controllers = glob.sync(config.root + '/app/controllers/*.js');
+  var controllers = glob.sync(config.root + '/app/controllers/*.js');
    controllers.forEach(function (controller) {
     require(controller)(app, config);
    });
 
-    
-//    var users = [	{name: 'John', email: 'woo@hoo.com'},
-//		{name: 'Betty', email: 'loo@woo.com'},
-//		{name: 'Hal', email: 'boo@woo.com'}
-//];
-//  app.use(function (req, res, next) {
-//  logger.log('Request from ' + req.connection.remoteAddress);
-//   next();
-//  });  
-//  app.get('/', function (req, res) { 
-//    res.send('hello world') 
-//  });
- 
-
-//  app.get('/api/users', function (req, res) {
-//    res.status(200).json(users);
-//  });
-
-
-  // require('../app/controllers/users')(app, config);
-  // require('../app/controllers/todos')(app, config);
-
-
-  app.use(express.static(config.root + '/public'));
+  //static server route
+   app.use(express.static(config.root + '/public'));
   
+  //adding error handlers
     app.use(function (req, res) {
       res.type('text/plan');
       res.status(404);
@@ -77,9 +57,6 @@ module.exports = function (app, config) {
     });
   
     app.use(function (err, req, res, next) {
-      if(process.env.NODE_ENV !== 'test') {
-      console.error(err.stack);
-    }
       res.type('text/plan');
       res.status(500);
       res.send('500 Sever Error');  
@@ -88,4 +65,3 @@ module.exports = function (app, config) {
     console.log("Starting application");
   
   };
-  
