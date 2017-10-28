@@ -59,7 +59,7 @@ module.exports = function (app, config) {
     app.use(function (err, req, res, next) {
       res.type('text/plan');
       res.status(500);
-      res.send('500 Sever Error');  
+      res.send('500 Server Error');  
     });
   
     console.log("Starting application");
