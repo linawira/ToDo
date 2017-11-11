@@ -4,6 +4,7 @@ var express = require('express'),
     logger = require('../../config/logger'),
     mongoose = require('mongoose'),
     Todo = mongoose.model('todos');
+    // passport = require('passport');
 
 module.exports = function (app, config) {
     app.use('/api', router);

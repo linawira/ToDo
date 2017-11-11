@@ -1,5 +1,8 @@
 import environment from './environment';
 
+import regeneratorRuntime from 'regenerator-runtime';
+window.regeneratorRuntime = regeneratorRuntime;
+
 export function configure(aurelia) {
   aurelia.use
     .standardConfiguration()

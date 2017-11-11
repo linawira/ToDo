@@ -72,7 +72,7 @@
             "name": "aurelia-templating-resources",
             "path": "../node_modules/aurelia-templating-resources/dist/amd",
             "main": "aurelia-templating-resources"
-          },
+          },          
           {
             "name": "aurelia-templating-router",
             "path": "../node_modules/aurelia-templating-router/dist/amd",
@@ -84,6 +84,11 @@
             "main": "aurelia-testing",
             "env": "dev"
           },
+          {
+            "name": "regenerator-runtime",
+            "path": "../node_modules/regenerator-runtime",
+            "main": "runtime-module"
+            },  
           "text"
         ]
       }

@@ -6,7 +6,7 @@
     import {Router} from 'aurelia-router';
     
     @inject(Router)
-    export class Wall {
+    export class List {
       constructor(router) {
         this.router = router;
               this.message = 'List';
