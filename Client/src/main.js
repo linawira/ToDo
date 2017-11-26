@@ -3,10 +3,15 @@ import environment from './environment';
 import regeneratorRuntime from 'regenerator-runtime';
 window.regeneratorRuntime = regeneratorRuntime;
 
+import config from './auth-config';
+
 export function configure(aurelia) {
   aurelia.use
     .standardConfiguration()
-    .feature('resources');
+    .plugin('aurelia-auth', (baseConfig)=>{
+      baseConfig.configure(config);
+ })
+    .feature('resources'); //load everything is the resource folder
 
   if (environment.debug) {
     aurelia.use.developmentLogging();

@@ -1,4 +1,8 @@
 <template>
-    <h1>${message}</h1>
-    <button click.trigger="logout()">Logout</button>
+        <!-- <h1>${message}</h1>
+        <button click.trigger="logout()">Logout</button> -->
+
+  <compose show.bind="showList" view="./components/todoList.html"></compose>
+    <compose show.bind="!showList" view="./components/todoForm.html"></compose>
+
 </template>

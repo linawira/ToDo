@@ -30,7 +30,7 @@ var localLogin = new localStrategy(localOptions, function(email, password, next)
 
   generateToken = function(user){
     return jwt.sign(user, config.secret, {
-      expiresIn: 10000
+      expiresIn: 1000000
     });
   };
 
@@ -49,4 +49,24 @@ setUserInfo = function(req){
     res.status(200).json({ token: generateToken(userInfo), user: req.user  });
   };
 
-passport.use(localLogin);
+  //extract the code and decode it
+  var jwtOptions = {
+    jwtFromRequest: extractJwt. fromAuthHeaderAsBearerToken(),
+    secretOrKey: config.secret 
+  };
+  
+  var jwtLogin = new jwtStrategy(jwtOptions, function(payload, next){
+    console.log(payload);
+    User.findById(payload._id).exec()
+    .then(function(user){
+      if (user){
+        return next(null, user);
+      } else {
+        return next(null, false);
+      }
+    })
+    .catch(function(err){ return next(err);});
+  });
+  
+  passport.use(jwtLogin);
+  passport.use(localLogin);
