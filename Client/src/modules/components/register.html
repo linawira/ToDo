@@ -1,10 +1,37 @@
 <template>
+        <h2>Register A New User</h2>
 
-            First Name: <input value.bind="user.firstName">
-            Last Name: <input value.bind="user.lastName">
-            Email: <input value.bind="user.email">
-            Password: <input value.bind="user.password">
+        <div class="col-md-4">
+
+        <form>
+        <div class="form-group">
+                <label for="InputFirstName">First Name</label>
+                <input type="text" class="form-control" id="InputFirstName" 
+            aria-describedby="firstNameHelp" placeholder="Enter first name"
+                    value.bind="user.firstName">
+            </div>
+    
+            <div class="form-group">
+                <label for="InputLastName">Last Name</label>
+                <input type="text" class="form-control" id="InputLastName" aria-describedby="lastNameHelp" placeholder="Enter last name"
+                    value.bind="user.lastName">
+            </div>
+    
+          <div class="form-group">
+                <label for="InputEmail">Email</label>
+                <input type="email" class="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="Enter email"
+                    value.bind="user.email">
+            </div>
+    
+            <div class="form-group">
+                <label for="InputPassword">Password</label>
+                <input type="text" class="form-control" id="InputPassword" aria-describedby="passwordHelp" placeholder="Enter password"
+                    value.bind="user.password">
+            </div>
+
         <span>${registerError}</span>
         <button click.trigger="save()">Save</button>
+    </div>
+    </form>
     </template>
     
